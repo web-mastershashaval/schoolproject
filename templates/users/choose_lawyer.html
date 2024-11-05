@@ -1,0 +1,158 @@
+{% extends 'dashboard.html' %}
+
+{% block title %}Choose a Lawyer{% endblock %}
+
+{% block content %}
+<h1>Choose a Lawyer</h1>
+
+<div class="lawyer-selection">
+    <div id="message" style="color: red; text-align: center;"></div> <!-- Feedback message area -->
+    
+    {% if lawyers %}
+        <form id="lawyer-form" method="post" class="lawyer-form">
+            {% csrf_token %}
+            <table class="lawyer-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>License Number</th>
+                        <th>Specialties</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lawyer in lawyers %}
+                        <tr>
+                            <td>{{ lawyer.user.first_name }} {{ lawyer.user.last_name }}</td>
+                            <td>{{ lawyer.license_number }}</td>
+                            <td>{{ lawyer.specialties }}</td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="lawyer" value="{{ lawyer.id }}" required>
+                                    Select
+                                </label>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="submit-button">Choose Lawyer</button>
+        </form>
+    {% else %}
+        <p>No lawyers available.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block css %}
+<style>
+  
+
+    .lawyer-selection {
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #444;
+    }
+
+    .lawyer-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    .lawyer-table th, .lawyer-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    .lawyer-table th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .lawyer-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .lawyer-table tr:hover {
+        background-color: #e2e6ea;
+    }
+
+    .submit-button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+    .submit-button:hover {
+        background-color: #218838;
+    }
+
+    @media (max-width: 600px) {
+        .lawyer-table {
+            font-size: 14px;
+        }
+
+        .submit-button {
+            font-size: 14px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block javascript %}
+<script>
+document.getElementById('lawyer-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const formData = new FormData(this);
+    const messageDiv = document.getElementById('message');
+    
+    // Show loading indicator (you can customize this part)
+    messageDiv.innerHTML = 'Loading...';
+
+    fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest' // To let the server know it's an AJAX request
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            messageDiv.style.color = 'red';
+            messageDiv.innerHTML = data.error; // Show error message
+        } else {
+            messageDiv.style.color = 'green';
+            messageDiv.innerHTML = 'Lawyer selected successfully!'; // Show success message
+            // Optionally, redirect after a few seconds
+            setTimeout(() => {
+                window.location.href = '/users/lawyer_profile/' + data.lawyer_id; // Change to your actual profile URL
+            }, 2000);
+        }
+    })
+    .catch(error => {
+        messageDiv.style.color = 'red';
+        messageDiv.innerHTML = 'An error occurred. Please try again.';
+        console.error('Error:', error);
+    });
+});
+</script>
+{% endblock %}

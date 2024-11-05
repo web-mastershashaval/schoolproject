@@ -1,0 +1,87 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block title %}Profile Management{% endblock %}
+
+{% block content %}
+<div id="profile-management" class="section">
+    <h2>Profile Management</h2>
+    <form method="post" enctype="multipart/form-data">  <!-- Include enctype for file uploads -->
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="profile_picture">Profile Picture</label>
+            {{ form.profile_picture }}  <!-- Render the profile picture field -->
+            {% if form.profile_picture.errors %}
+                <div class="error">{{ form.profile_picture.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="first_name">First Name</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+                <div class="error">{{ form.first_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+                <div class="error">{{ form.last_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            {{ form.phone_number }}
+            {% if form.phone_number.errors %}
+                <div class="error">{{ form.phone_number.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            {{ form.gender }}
+            {% if form.gender.errors %}
+                <div class="error">{{ form.gender.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="county">County/State</label>
+            {{ form.county }}
+            {% if form.county.errors %}
+                <div class="error">{{ form.county.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="postaddress">Post Address</label>
+            {{ form.postaddress }}
+            {% if form.postaddress.errors %}
+                <div class="error">{{ form.postaddress.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="about">About</label>
+            {{ form.about }}
+            {% if form.about.errors %}
+                <div class="error">{{ form.about.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit">Submit Profile</button>
+    </form>
+</div>
+{% endblock %}

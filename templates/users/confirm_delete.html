@@ -1,0 +1,12 @@
+<!-- confirm_delete.html -->
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2>Confirm Delete</h2>
+<p>Are you sure you want to delete the document for "{{ case.case_title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+    <a href="{% url 'documents_view' %}">Cancel</a>
+</form>
+{% endblock %}

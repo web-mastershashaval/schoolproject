@@ -1,0 +1,30 @@
+{% extends 'lawyers/lawyer_dashboard.html' %}
+{% load static %}
+<h2>Your Appointments</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Client Name</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for appointment in appointments %}
+        <tr>
+            <td>{{ appointment.client.first_name }} {{ appointment.client.last_name }}</td>
+            <td>{{ appointment.date }}</td>
+            <td>
+                <a href="{% url 'lawyers:edit_appointment' appointment.id %}">Edit</a>
+                <form action="{% url 'lawyers:delete_appointment' appointment.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'lawyers:create_appointment_view' lawyer_id=request.user.lawyer.id %}">Create New Appointment</a>

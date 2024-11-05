@@ -1,0 +1,195 @@
+{% extends 'lawyers/lawyer_dashboard.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard.css' %}">
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 columns */
+        grid-template-rows: repeat(2, auto); /* 2 rows */
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .grid-item {
+        background: var(--white);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .username {
+        color: var(--primary-color);
+    }
+    .notifications {
+        background: #ffecb3; /* Light background for notifications */
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    .calendar {
+        overflow-x: auto;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+</style>
+{% endblock css %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<body>
+
+<h1>Welcome Lawyer, <span class="username">{{ user.username }}!</span></h1> 
+<hr><br>
+
+<!-- Grid Container for appointments-->
+<div class="grid-container">
+    <div class="grid-item">
+        <img src="{% static 'media/appointmen1.png' %}" alt="Appointments"><br>
+        <small>Your Appointments:</small><br>
+        {% for appointment in appointments %}
+            <strong>{{ appointment.client.user.first_name }} {{ appointment.client.user.last_name }}</strong> - 
+            <span>{{ appointment.appointment_date|date:"F j, Y, g:i A" }}</span><br>
+        {% empty %}
+            <strong>No appointments booked yet.</strong>
+        {% endfor %}
+    </div>
+
+<!-- clients -->
+    <div class="grid-item">
+        <img src="{% static 'media/userlawyer.png' %}" alt="Current Clients"><br>
+        <small>Your Current Clients:</small><br>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if clients %}
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ client.user.first_name }} {{ client.user.last_name }}</td>
+                        <td>{{ client.user.email }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="2">No clients available for this lawyer.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+<!-- cases  -->
+    <div class="grid-item">
+        <img src="{% static 'media/case.png' %}" alt="Current Cases"><br>
+        <small>Your Current Cases:</small><br>
+        {% for case in cases %}
+            <strong>{{ case.case_title }}</strong><br>
+        {% empty %}
+            <strong>No cases available.</strong>
+        {% endfor %}
+    </div>
+
+    <!-- payments -->
+    <div class="grid-item">
+        <img id="money" src="{% static 'media/money.jpg' %}" alt="Payments" style="width: 100px; height: auto; max-width: 100%;"><br>
+        <small>Current Payments:</small><br>
+        {% for payment in payments %}
+            <strong>Ksh {{ payment.amount }}</strong><br>
+            <strong>{{ payment.status }}</strong><br>
+        {% empty %}
+            <strong>No payments made yet.</strong>
+        {% endfor %}
+    </div>
+
+    
+<!-- Profile -->
+<div class="grid-item">
+    {% if lawyer.profile_picture %}
+        <img src="{{ lawyer.profile_picture.url }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50px;">
+    {% else %}
+        <img src="{% static 'media/profile.png' %}" alt="Default Profile Image" style="width: 150px; height: 150px;">
+    {% endif %}
+    <h2>Your Profile</h2>
+    <strong>Name:</strong> {{ lawyer.user.first_name }} {{ lawyer.user.last_name }}<br>
+    <strong>Email:</strong> {{ lawyer.user.email }}<br>
+    <strong>About:</strong> {{ lawyer.bio|default:"No information available." }}<br>
+</div>
+
+
+  <!-- notifications -->
+  <div class="grid-item">
+    <div class="notifications">
+        <h2>Notifications</h2>
+        {% if has_upcoming_appointments %}
+            <p>You have upcoming appointments!</p>
+        {% else %}
+            <p>No upcoming appointments.</p>
+        {% endif %}
+        
+        {% if new_messages > 0 %}
+            <p>You have {{ new_messages }} new message{% if new_messages > 1 %}s{% endif %}!</p>
+        {% else %}
+            <p>No new messages.</p>
+        {% endif %}
+    </div>
+</div>
+   <!-- information -->
+    <div class="grid-item">
+        <h2>Basic Information</h2>
+        <img src="{% static 'media/infor.png' %}" alt="Information"><br>
+        <p>In this current page, there is only the latest information from every existing page.</p>
+    </div>
+
+    <!-- calendar -->
+    <div class="grid-item">
+        <div class="calendar">
+            <h2>Appointment Calendar</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in calendar %}
+                        <tr>
+                            {% for day in week %}
+                                <td>
+                                    {% if day.day %}
+                                        {{ day.day }}<br>
+                                        {% for appointment in day.appointments %}
+                                            <span>{{ appointment.client.user.first_name }} {{ appointment.client.user.last_name }}</span><br>
+                                        {% empty %}
+                                            <span></span>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>  
+</div>
+
+</body>
+{% endblock %}

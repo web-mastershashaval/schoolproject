@@ -1,0 +1,141 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard.css' %}">
+{% endblock css %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<body>
+
+<h1>Welcome <span class="username">{{ user.username }}!</span></h1> 
+<hr><br>
+
+<!-- Grid Container -->
+<div class="grid-container">
+    <div class="grid-item">
+        <img src="{% static 'media/appointment.png' %}"><br>
+        <i class="fas fa-calendar-alt"></i>
+        <small>Your Appointments:</small><br>
+        {% for appointment in appointments %}
+            <strong>{{ appointment.first_name }} {{ appointment.last_name }}</strong> - 
+            <span>{{ appointment.appointment_date|date:"F j, Y, g:i A" }}</span><br>
+        {% empty %}
+            <strong>No appointments booked yet.</strong>
+        {% endfor %}
+    </div>
+
+    <div class="grid-item">
+        <img src="{% static 'media/lawyerimg.png' %}"><br>
+        <small>Your Lawyer:</small><br>
+        {% if request.user.client.selected_lawyer %}
+            <strong>{{ request.user.client.selected_lawyer.user.first_name }} {{ request.user.client.selected_lawyer.user.last_name }}</strong>
+        {% else %}
+            <strong>No lawyer selected.</strong>
+        {% endif %}
+    </div>
+
+
+    <div class="grid-item">
+        <img src="{% static 'media/case.png' %}"><br>
+        <small>Your Cases:</small><br>
+        {% for case in user.cases.all %}
+            <strong>{{ case.case_title }}</strong><br>
+        {% empty %}
+            <strong>No cases available.</strong>
+        {% endfor %}
+    </div>
+  <!-- payments -->
+    <div class="grid-item">
+        <img id="money" src="{% static 'media/money.jpg' %}" style="width: 100px; height: auto; max-width: 100%;"><br>
+        <small>Your Payments:</small><br>
+        {% for pay in user.payments.all %}
+            <strong>ksh {{ pay.amount }}</strong><br>
+            <strong>{{ pay.status }}</strong><br>
+        {% empty %}
+            <strong>No payments made yet.</strong>
+        {% endfor %}
+    </div>
+
+  <!-- Profile Section -->
+<div class="grid-item">
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50px;">
+    {% else %}
+        <img src="{% static 'media/profile.png' %}" alt="Default Profile Image" style="width: 150px; height: 150px;">
+    {% endif %}
+    <h2>Your Profile</h2>
+    <strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}<br>
+    <strong>Email:</strong> {{ user.email }}<br>
+    <strong>About:</strong> {{ user.profiles.about|default:"No information available." }}<br>
+</div>
+
+<!-- Notifications Section -->
+<div class="grid-item">
+    <div class="notifications">
+        <h2>Notifications</h2>
+        {% if has_upcoming_appointments %}
+            <p>You have upcoming appointments!</p>
+        {% else %}
+            <p>No upcoming appointments.</p>
+        {% endif %}
+        
+        {% if new_messages > 0 %}
+            <p>You have {{ new_messages }} new message{% if new_messages > 1 %}s{% endif %}!</p>
+        {% else %}
+            <p>No new messages.</p>
+        {% endif %}
+    </div>
+</div>
+
+    <div class="grid-item">
+        <h2>Basic Information</h2>
+        <img src="{% static 'media/infor.png' %}"><br>
+        <p>To make an appointment choose a lawyer first.</p>
+    </div>
+
+    <!-- Calendar Section -->
+<div class="grid-item">
+    <div class="calendar">
+        <h2>Appointment Calendar</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week in calendar %}
+                    <tr>
+                        {% for day in week %}
+                            <td>
+                                {% if day.day %}
+                                    <strong>{{ day.day }}</strong><br>
+                                    {% for appointment in appointments %}
+                                        {% if appointment.appointment_date|date:"Y-m-d" == day.date|date:"Y-m-d" %}
+                                            <span style="color: red;">{{ appointment.first_name }} {{ appointment.last_name }}</span><br>
+                                        {% endif %}
+                                    {% empty %}
+                                        <span></span>
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+{% endblock %}

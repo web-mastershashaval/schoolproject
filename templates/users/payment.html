@@ -1,0 +1,23 @@
+<!-- payment.html -->
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block title %}Paymentst{% endblock %}
+
+{% block content %}
+<div class="payment-form">
+    <h2>Make a Payment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Pay Now</button>
+    </form>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!-- lawyers/lawyer_dashboard.html -->
+{% extends 'lawyers/lawyer_dashboard.html' %}  
+{% load static %}
+
+{% block content %}
+
+<h2>Manage your Profile here</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Render the form fields -->
+    <button type="submit">Save Changes</button>
+</form>
+
+<h3>Your Current Details</h3>
+<p><strong>first Name:</strong> {{ lawyer.user.first_name }}</p>
+<p><strong>Last Name:</strong> {{ lawyer.user.last_name }}</p>
+<p><strong>Email:</strong> {{ lawyer.user.email }}</p>
+<p><strong>Phone:</strong> {{ lawyer.phone }}</p>
+<p><strong>License Number:</strong> {{ lawyer.license_number }}</p>
+<p><strong>Specialties:</strong> {{ lawyer.specialties }}</p>
+<p><strong>Bio:</strong> {{ lawyer.bio }}</p>
+
+{% endblock %}

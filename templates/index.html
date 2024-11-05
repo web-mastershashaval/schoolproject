@@ -1,0 +1,185 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Law Firm</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .hero {
+            background: url('{% static "media/law.jpg" %}') no-repeat center center;
+            background-size: cover;
+            height: 100vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        #text {
+            color: white;
+        }
+        .service {
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .navbar-custom {
+            background-color: green;
+        }
+        .navbar-custom .nav-link {
+            color: white;
+        }
+        .btn-primary {
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: darkblue;
+            transform: scale(1.05);
+        }
+        blockquote {
+            border-left: 4px solid green;
+            padding-left: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        @media (max-width: 768px) {
+            .hero {
+                height: 70vh;
+            }
+            .service h4 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">Law Firm</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user:sign-up' %}">SignUp</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user:usercategory' %}">SignIn</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div>
+            <h1 id="text">Welcome to Tekashi Law Firm</h1>
+            <p id="text">Your trusted partner in legal services and client management services.</p>
+            <a href="#services" class="btn btn-primary">Learn More</a>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="container" id="services">
+        <h2 class="text-center my-4">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4 service">
+                <h4>Legal Consultation</h4>
+                <p>Expert advice on legal matters tailored to your needs.</p>
+            </div>
+            <div class="col-md-4 service">
+                <h4>Case Management</h4>
+                <p>Streamlined case management for effective handling of your legal issues.</p>
+            </div>
+            <div class="col-md-4 service">
+                <h4>Document Preparation</h4>
+                <p>Professional preparation of legal documents with attention to detail.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="container my-5">
+        <h2 class="text-center">What Our Clients Say</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">"The team was incredibly helpful and knowledgeable!"</p>
+                    <footer class="blockquote-footer">John Kimani</footer>
+                </blockquote>
+            </div>
+            <div class="col-md-4">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">"I received excellent support throughout my case."</p>
+                    <footer class="blockquote-footer">Jane Smith</footer>
+                </blockquote>
+            </div>
+            <div class="col-md-4">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">"Highly recommend for their professionalism and care."</p>
+                    <footer class="blockquote-footer">Alice Johnson</footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form Section -->
+    <div class="container my-5">
+        <h2 class="text-center">Contact Us</h2>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Online Law Firm. All rights reserved.</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Simple form validation
+            if (name && email && message) {
+                alert(`Thank you, ${name}! Your message has been sent.`);
+                // Here you could send the form data using fetch or XMLHttpRequest
+            } else {
+                alert('Please fill out all fields.');
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

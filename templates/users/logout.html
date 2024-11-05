@@ -1,0 +1,46 @@
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signout</title>
+    <style>
+        body {
+            text-align: center;
+            margin: 0px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        h5 {
+            font-size: larger;
+        }
+        .btn {
+            padding: 10px 23px;
+            border: 0;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        #btn-signout {
+            background-color: red;
+        }
+        #btn-back {
+            background-color: green;
+        }
+        li {
+            list-style: none;
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <h5>Are you sure you want to sign out?</h5>
+
+    <li a< href="url{% users:sign-in %}" id="btn-signout" class="btn">Signout</>
+    <li><a href="url{% users:dashboard%}" id="btn-back" class="btn">Back</a></li>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,10 @@
+<!-- payment_success.html -->
+{% extends 'lawyers/lawyer_dashboard.html' %}
+{% load static %}
+
+{% block title %}Payment Successful{% endblock %}
+
+{% block content %}
+<h2>Payment Successful!</h2>
+<p>Thank you for your payment,{{user.username}}</p>
+{% endblock %}

@@ -1,0 +1,94 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light background for contrast */
+    color: #343a40; /* Dark text color */
+}
+
+.navbar {
+    margin-bottom: 20px; /* Spacing below navbar */
+}
+
+.navbar-brand {
+    font-weight: bold; /* Bold brand name */
+}
+
+.section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #ffffff; /* White background for sections */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+h2 {
+    margin-bottom: 20px; /* Space below section headings */
+    font-size: 1.5rem; /* Increased font size for headings */
+    color: #007bff; /* Bootstrap primary color */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Space between form elements */
+}
+
+label {
+    font-weight: bold; /* Bold labels for clarity */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input[type="file"],
+textarea {
+    border: 1px solid #ced4da; /* Light border for inputs */
+    border-radius: 4px; /* Rounded corners for inputs */
+    padding: 10px; /* Padding inside inputs */
+    width: 100%; /* Full width */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="file"]:focus,
+textarea:focus {
+    border-color: #80bdff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+button {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* White text for buttons */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners for buttons */
+    padding: 10px 15px; /* Padding inside buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resizing only */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column; /* Stack nav items on small screens */
+    }
+    
+    .section {
+        margin-top: 20px; /* Reduce margin for mobile */
+    }
+}
+

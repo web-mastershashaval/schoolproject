@@ -1,0 +1,169 @@
+{% extends 'lawyers/lawyer_dashboard.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+        background-color: #007bff;
+        color: white;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    .payment-form {
+        display: none;  /* Initially hide the form */
+        margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+
+        th {
+            display: none;
+        }
+
+        td {
+            text-align: right;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 10px;
+            width: 50%;
+            padding-left: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+    }
+
+    #suggestions {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute; /* Adjust as necessary */
+    background: white;
+    z-index: 1000; /* Make sure it appears above other elements */
+}
+
+#suggestions li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestions li:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+}
+
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="clients-container">
+    <h2>Clients</h2>
+    <form id="search-form" method="GET" action="{% url 'lawyers:lawyers_clients' %}">
+        <input type="text" id="search-input" name="search" placeholder="Search client..." autocomplete="off">
+        <button type="submit">Search</button>
+    </form>
+    <ul id="suggestions" style="display:none;"></ul>
+  
+
+    {% if clients %}
+        <table class="clients-table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                    <tr>
+                        <td>{{ client.user.first_name }}</td>
+                        <td>{{ client.user.last_name }}</td>
+                        <td>{{ client.user.username }}</td>
+                        <td>{{ client.user.email }}</td>
+                        <td>
+                            <form method="post" action="{% url 'lawyers:delete_client' client.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-button">Delete Client</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No clients have been selected for this lawyer.</p>
+    {% endif %}
+</div>
+
+  
+<script>
+    document.getElementById('search-input').addEventListener('input', function() {
+        const query = this.value;
+    
+        if (query.length > 2) { // Trigger search after 2 characters
+            fetch(`/lawyers/clients/search/?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const suggestionsList = document.getElementById('suggestions');
+                    suggestionsList.innerHTML = '';
+    
+                    if (data.length > 0) {
+                        suggestionsList.style.display = 'block';
+    
+                        data.forEach(client => {
+                            const li = document.createElement('li');
+                            li.textContent = `${client.user__first_name} ${client.user__last_name} (${client.user__email})`;
+                            suggestionsList.appendChild(li);
+                        });
+                    } else {
+                        suggestionsList.style.display = 'none';
+                    }
+                });
+        } else {
+            document.getElementById('suggestions').style.display = 'none';
+        }
+    });
+    
+    // Optional: Hide suggestions when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('#search-form')) {
+            document.getElementById('suggestions').style.display = 'none';
+        }
+    });
+    </script>
+    
+{% endblock %}

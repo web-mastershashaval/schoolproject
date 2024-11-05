@@ -1,0 +1,123 @@
+<h1>Dashboard for Lawyer: {{ user.first_name }} {{ user.last_name }}</h1>
+
+<h2>Client Appointments</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Client First Name</th>
+            <th>Client Last Name</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Date</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for appointment in appointments %}
+        <tr>
+            <td>{{ appointment.client.user.first_name }}</td>
+            <td>{{ appointment.client.user.last_name }}</td>
+            <td>{{ appointment.client.user.email }}</td>
+            <td>{{ appointment.client.user.username }}</td>
+            <td>{{ appointment.date }}</td>
+            <td>{{ appointment.details }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No appointments available for clients of this lawyer.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Cases</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Case Title</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for case in cases %}
+        <tr>
+            <td>{{ case.case_title }}</td>
+            <td>{{ case.status }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No cases assigned to this lawyer.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Clients</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Client Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients %}
+        <tr>
+            <td>{{ client.user.first_name }} {{ client.user.last_name }}</td>
+            <td>{{ client.user.email }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No clients available for this lawyer.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Payments</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Client Name</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payment in payments %}
+        <tr>
+            <td>{{ payment.client.user.first_name }} {{ payment.client.user.last_name }}</td>
+            <td>{{ payment.amount }}</td>
+            <td>{{ payment.status }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No payments recorded for clients of this lawyer.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Uploaded Files</h2>
+<table>
+    <thead>
+        <tr>
+            <th>File Name</th>
+            <th>Uploaded By</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in uploaded_files %}
+        <tr>
+            <td>{{ file.file_name }}</td>
+            <td>{{ file.user.first_name }} {{ file.user.last_name }}</td>
+            <td>{{ file.uploaded_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No files uploaded for this lawyer.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

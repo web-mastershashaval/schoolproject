@@ -1,0 +1,210 @@
+<!-- templates/sign_in.html -->
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: url('{% static "media/law.jpg" %}') no-repeat center center;  
+            background-size: cover;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: rgba(95, 171, 33, 0.9);
+            padding: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .nav-item {
+            margin-left: 20px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #FFD700;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            background-color: rgba(95, 171, 33, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            margin-top: 80px; /* Space for fixed navbar */
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px; /* Space below logo */
+        }
+
+        .logo img {
+            max-width: 100px; /* Adjust logo size */
+            height: auto;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .btn {
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: darkgreen;
+            transform: translateY(-2px);
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        p {
+            color: white;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        a {
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            background-color: rgba(248, 249, 250, 0.8);
+            padding: 15px 0;
+            text-align: center;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="{% url 'home' %}">Law Firm</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user:sign-up' %}">SignUp</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user:usercategory' %}">SignIn</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sign In Form Section -->
+    <div class="container">
+        <h2 class="text-center">Sign In</h2>
+        <div class="logo">
+            <img src="{% static 'media/lawyer.png' %}" alt="Law Firm Logo">
+        </div>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                {{ form.username }}  <!-- Render the username field -->
+                {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors }}</div>  <!-- Display errors -->
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ form.password }}  <!-- Render the password field -->
+                {% if form.password.errors %}
+                    <div class="error">{{ form.password.errors }}</div>  <!-- Display errors -->
+                {% endif %}
+            </div>
+            <p>Forgot password? <a href="">Reset password</a></p>
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+
+        <div class="footer">
+            <p>&copy; 2024 Online Law Firm. All rights reserved.</p>
+        </div>
+    </div>
+
+</body>
+</html>
+{% endblock %}

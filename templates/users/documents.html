@@ -1,0 +1,36 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<h2>Your Documents</h2>
+<ul>
+    {% for case in cases %}
+        <li>
+            {% if case.document %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Title">{{ case.case_title }}</td>
+                            <td data-label="Date">{{ case.date }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="{{ case.document.url }}" download>Download</a>
+                <form action="{% url 'delete_document' case.id %}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this document?');">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            {% else %}
+                <span>No document available</span>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No documents found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

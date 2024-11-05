@@ -1,0 +1,26 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block content %}
+
+<body>
+    <h1>Upload a File</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+
+
+{%endblock%}

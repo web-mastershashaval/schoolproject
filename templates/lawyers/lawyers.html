@@ -1,0 +1,66 @@
+{% extends 'lawyers/lawyer_dashboard.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard.css' %}">
+<style>
+    .lawyer-profile {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-top: 20px;
+        display: none; /* Hidden by default */
+    }
+</style>
+{% endblock css %}
+
+{% block title %}Lawyers List{% endblock %}
+
+{% block content %}
+<h1>Select a Lawyer</h1> <br>
+
+<div>
+    <h2>Available Lawyers</h2>
+    <ul>
+        {% for lawyer in lawyers %}
+            <li>
+                <a href="#" class="lawyer-link" data-lawyer-id="{{ lawyer.id }}">
+                    {{ lawyer.User }} 
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div id="lawyer-profile" class="lawyer-profile">
+    <h2>Lawyer Profile</h2>
+    <div id="lawyer-details"></div>
+</div>
+
+<script>
+    document.querySelectorAll('.lawyer-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const lawyerId = this.getAttribute('data-lawyer-id');
+            fetch(`/lawyers/${lawyerId}/profile/`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Lawyer not found');
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('lawyer-details').innerHTML = `
+                        <h3>${data.User}</h3>
+                        <p>Email: ${data.email}</p>
+                        <p>Phone: ${data.speciality}</p>
+                        <p>Bio: ${data.bio}</p>
+                    `;
+                    document.getElementById('lawyer-profile').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error fetching lawyer profile.');
+                });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'lawyers/lawyer_dashboard.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard.css' %}">
+<style>
+    .form-container {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+</style>
+{% endblock css %}
+
+{% block title %}Edit Appointment{% endblock %}
+
+{% block content %}
+<h1>Edit Appointment</h1>
+
+<div class="notifications">
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="form-container">
+    <form method="post" action="{% url 'lawyers:edit_appointment' appointment.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Appointment</button>
+    </form>
+</div>
+
+<a href="{% url 'lawyers:appointments' %}">Back to Appointments</a>
+{% endblock %}

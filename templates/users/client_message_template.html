@@ -1,0 +1,90 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<h2>Messages with {{ selected_lawyer.user.username }}</h2>
+
+<form method="POST" id="deleteForm">
+    {% csrf_token %}
+    <div class="message-container">
+        {% for message in messages %}
+            <div class="message {% if message.sender == selected_lawyer.user %}lawyer-message{% else %}client-message{% endif %}">
+                <input type="checkbox" name="message_ids" value="{{ message.id }}" style="margin-right: 10px;">
+                <strong>{{ message.sender.username }}:</strong> {{ message.content }}
+                <small>{{ message.timestamp|date:"F j, Y, g:i a" }}</small>
+            </div>
+        {% empty %}
+            <div>No messages found.</div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" name="delete_messages" style="background:none; border:none; color:red; cursor:pointer;">Delete Selected Messages</button>
+</form>
+
+<form method="POST" class="message-form">
+    {% csrf_token %}
+    <textarea name="content" placeholder="Type your message here..." required></textarea>
+    <button type="submit">Send Message</button>
+</form>
+
+<style>
+    .message-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 600px;
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        overflow-y: auto;
+        height: 400px; /* Set a height to allow scrolling */
+    }
+
+    .message {
+        padding: 10px;
+        border-radius: 5px;
+        margin: 5px 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .lawyer-message {
+        background-color: #d1e7dd; /* Light green for lawyer's messages */
+        align-self: flex-start; /* Align to the left */
+    }
+
+    .client-message {
+        background-color: #f8d7da; /* Light red for client's messages */
+        align-self: flex-end; /* Align to the right */
+    }
+
+    .message-form {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message-form textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        resize: none;
+        height: 60px; /* Set a fixed height */
+    }
+
+    .message-form button {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+
+    .message-form button:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+</style>
+
+{% endblock %}

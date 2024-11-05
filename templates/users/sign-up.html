@@ -1,0 +1,209 @@
+<!-- templates/sign_up.html -->
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: url('{% static "media/law.jpg" %}') no-repeat center center;  
+            background-size: cover;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            background-color: rgba(95, 171, 33, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 15px; /* Adjusted to reduce spacing */
+        }
+        
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px; /* Reduced padding for better fit */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+        
+        .btn {
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: darkgreen;
+            transform: translateY(-2px);
+        }
+        
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 6px;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .navbar {
+            width: 100%;
+            background-color: rgba(95, 171, 33, 0.9);
+            padding: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: fixed; /* Fixed position */
+            top: 0; /* Stick to the top */
+            z-index: 1000; /* Ensure it stays above other content */
+        }
+        
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            text-decoration: none;
+        }
+        
+        .navbar-nav {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end; /* Align links to the right */
+        }
+        
+        .nav-item {
+            margin-left: 20px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #FFD700; /* Gold color on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="{% url 'home' %}">Law Firm</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user:sign-up' %}">SignUp</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user:usercategory' %}">SignIn</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sign Up Form Section -->
+    <div class="container my-5">
+        <h2 class="text-center">Sign Up</h2>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                {{ form.first_name }}  <!-- Render the first name field -->
+                {% if form.first_name.errors %}
+                    <div class="error">{{ form.first_name.errors }}</div>  <!-- Display errors -->
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                {{ form.last_name }}  <!-- Render the last name field -->
+                {% if form.last_name.errors %}
+                    <div class="error">{{ form.last_name.errors }}</div>  <!-- Display errors -->
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                {{ form.username }}  <!-- Render the username field -->
+                {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors }}</div>  <!-- Display errors -->
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                {{ form.email }}  <!-- Render the email field -->
+                {% if form.email.errors %}
+                    <div class="error">{{ form.email.errors }}</div>  <!-- Display errors -->
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ form.password1 }}  <!-- Render the password field -->
+                {% if form.password1.errors %}
+                    <div class="error">{{ form.password1.errors }}</div>  <!-- Display errors -->
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="password">Confirm Password</label>
+                {{ form.password2 }}  <!-- Render the password field -->
+                {% if form.password2.errors %}
+                    <div class="error">{{ form.password2.errors }}</div>  <!-- Display errors -->
+                {% endif %}
+            </div>
+            <li><a href="{% url 'user:sign-in' %}">Already have an account?</a></li>
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+    </div>
+    
+</body>
+</html>
+{% endblock %}

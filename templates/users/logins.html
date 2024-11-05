@@ -1,0 +1,95 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: url('{% static "media/law.jpg" %}') no-repeat center center;  
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            background-color: #5fab21;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-group {
+            width: 100%;
+            border-radius: 2px;
+            align-content: center;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sign Up Form Section -->
+    <div class="container my-5">
+        <h2 class="text-center">Sign up</h2>
+        <form method="post" action="">
+            {% csrf_token %}
+           
+           
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Email" name="email" required>
+            </div>
+           
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+            </div>
+          
+            <br>
+            <p>Forgot password ? <a href="">resetpassward</a></p>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+    </div>
+    
+</body>
+</html>
+{% endblock %}

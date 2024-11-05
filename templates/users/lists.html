@@ -1,0 +1,120 @@
+{% extends 'lawyers/lawyer_dashboard.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard.css' %}">
+<style>
+    .lawyer-profile {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-top: 20px;
+        display: none; /* Hidden by default */
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+{% endblock css %}
+
+{% block title %}Lawyers List{% endblock %}
+
+{% block content %}
+<h1>Select a Lawyer</h1>
+
+<div>
+    <h2>Available Lawyers</h2>
+    {% if lawyers %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>License Number</th>
+                    <th>Specialties</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lawyer in lawyers %}
+                    <tr>
+                        <td>{{ lawyer.user.first_name }} {{ lawyer.user.last_name }}</td>
+                        <td>{{ lawyer.license_number }}</td>
+                        <td>{{ lawyer.specialties }}</td>
+                        <td>
+                            <a href="#" class="lawyer-link" data-lawyer-id="{{ lawyer.id }}">Select</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No lawyers available.</p>
+    {% endif %}
+</div>
+
+<div id="lawyer-profile" class="lawyer-profile">
+    <h2>Lawyer Profile</h2>
+    <div id="lawyer-details"></div>
+</div>
+
+<script>
+    // Set the CSRF token for AJAX requests
+    const csrftoken = '{{ csrf_token }}';
+
+    document.querySelectorAll('.lawyer-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const lawyerId = this.getAttribute('data-lawyer-id');
+
+            // Set the selected lawyer in the session
+            fetch(`/select-lawyer/${lawyerId}/`, { 
+                method: 'POST', 
+                headers: { 
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ lawyer_id: lawyerId })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Unable to select lawyer');
+                return response.json();
+            })
+            .then(data => {
+                alert('Lawyer selected successfully!');
+
+                // Fetch the lawyer profile
+                return fetch(`/lawyers/${lawyerId}/profile/`);
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Lawyer not found');
+                return response.json();
+            })
+            .then(data => {
+                // Display the lawyer profile
+                document.getElementById('lawyer-details').innerHTML = `
+                    <h3>${data.first_name} ${data.last_name}</h3>
+                    <p>License Number: ${data.license_number}</p>
+                    <p>Specialties: ${data.specialties}</p>
+                    <p>Email: ${data.email}</p>
+                    <p>Phone: ${data.phone_number}</p>
+                    <p>Bio: ${data.bio}</p>
+                `;
+                document.getElementById('lawyer-profile').style.display = 'block';
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Error fetching lawyer profile or selecting lawyer: ' + error.message);
+            });
+        });
+    });
+</script>
+
+{% endblock %}
