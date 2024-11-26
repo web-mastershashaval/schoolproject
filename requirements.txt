@@ -1,8 +1,14 @@
-asgiref>=3.7.0  # Latest version of asgiref compatible with Django
-django>=5  # Replace with the correct version you're using (e.g., 5 if available)
-django-allauth>=0.54.0  # Latest version of django-allauth
-django.contrib.sites  # Required for Django Allauth
-allauth.account  # Part of django-allauth
-allauth.socialaccount  # Part of django-allauth
-mysqlclient
-pillow
+asgiref==3.8.1
+dj-database-url==2.3.0
+Django==5.0
+django-allauth==65.2.0
+django-extensions==3.2.3
+gunicorn==23.0.0
+mysqlclient==2.2.5
+packaging==24.2
+pillow==11.0.0
+psycopg2-binary==2.9.10
+PyMySQL==1.1.1
+sqlparse==0.5.1
+typing_extensions==4.12.2
+whitenoise==6.8.2
