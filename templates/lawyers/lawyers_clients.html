@@ -115,7 +115,7 @@
                         <td>{{ client.user.username }}</td>
                         <td>{{ client.user.email }}</td>
                         <td>
-                            <form method="post" action="{% url 'lawyers:delete_client' client.id %}" style="display:inline;">
+                            <form method="post" action="{% url 'lawyers:delete_client' client.user.id %}" style="display:inline;">
                                 {% csrf_token %}
                                 <button type="submit" class="delete-button">Delete Client</button>
                             </form>

@@ -45,7 +45,7 @@ def signup(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, 'Registration successful.')
-            return redirect('users:dashboard')  # Redirect to the user dashboard
+            return redirect('signin')  # Redirect to the user dashboard
     else:
         form = CustomUserCreationForm()
     return render(request, 'users/sign-up.html', {'form': form})
@@ -199,6 +199,7 @@ def handle_profile_form(request):
     else:
         messages.error(request, 'There was an error updating your profile.')
     return form
+
 @login_required
 @client_required
 def create_profile_view(request):
@@ -216,6 +217,7 @@ def create_profile_view(request):
         form = ProfileForm()
 
     return render(request, 'users/create_profile.html', {'form': form})
+
 @login_required
 def profile_management_view(request):
     # Get or create the profile for the current user
@@ -236,11 +238,6 @@ def profile_management_view(request):
     return render(request, 'users/profile_form.html', {'form': form, 'profile': profile})
 
 
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-
 def handle_case_management_form(request):
     form = CaseManagementForm(request.POST)
     if form.is_valid():
@@ -253,20 +250,20 @@ def handle_case_management_form(request):
 @login_required
 @client_required
 @lawyer_selected_required
-# @lawyer_selected_required
 def case_management_view(request):
     if request.method == 'POST':
-        form = CaseManagementForm(request.POST)
+        form = CaseManagementForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             case = form.save(commit=False)
-            case.user = request.user
-            case.save()
+            case.user = request.user  # Ensure the user is set
+            case.save()  # Save the case, which includes the document
             messages.success(request, 'Case saved successfully!')
             return redirect('users:casemanagement')
     else:
-        form = CaseManagementForm()
+        form = CaseManagementForm(user=request.user)  # Pass user in GET request as well
 
     return render(request, 'users/casemanagement_form.html', {'form': form})
+
 
 def handle_upload_file_form(request):
     form = UploadFileForm(request.POST, request.FILES)
@@ -317,6 +314,7 @@ def create_appointment(request):
         'today': today,
         'max_date': max_date,
     })
+
 def appointment_confirmation(request):
     return render(request,'users/appointment_success.html')
 
@@ -356,7 +354,6 @@ def manage_appointments(request):
 @login_required
 @client_required
 @lawyer_selected_required
-# @lawyer_selected_required
 def payment_view(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
@@ -386,6 +383,7 @@ def handle_payment_form(request):
 
 @login_required
 @client_required
+@lawyer_selected_required
 def upload_file_view(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)  # Don't forget to pass request.FILES
@@ -413,6 +411,7 @@ def delete_document(request, document_id):
     else:
         messages.error(request, "Error deleting document.")
         return redirect('documents_view')
+
 
 @login_required
 @lawyer_selected_required

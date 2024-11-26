@@ -21,10 +21,12 @@
                     </tbody>
                 </table>
                 <a href="{{ case.document.url }}" download>Download</a>
-                <form action="{% url 'delete_document' case.id %}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this document?');">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
+                <!-- <form action="{% url 'delete_document' case.id %}" method="post" style="display:inline;" 
+      onsubmit="return confirm('Are you sure you want to delete this document?');"> -->
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>
+
             {% else %}
                 <span>No document available</span>
             {% endif %}

@@ -30,7 +30,9 @@ urlpatterns = [
 
     # links to files  
     path('upload/', views.upload_file_view, name='upload_files'),
-    path('delete/<int:file_id>/', views.delete_lawyer_file, name='delete_lawyer_file'),  
+    path('delete/<int:file_id>/', views.delete_lawyer_file, name='delete_lawyer_file'),
+    path('delete_lawyer_file/<int:id>/', views.delete_lawyer_file, name='delete_lawyer_file'),
+    path('delete_client_file/<int:id>/', views.delete_client_file, name='delete_client_file'),  
 
     path('message/', views.message_view, name='message_view'),
 

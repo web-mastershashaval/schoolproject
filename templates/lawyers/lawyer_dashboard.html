@@ -5,8 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'media/dash.png' %}" type="image/x-icon">
+
+    <!-- External CSS -->
     <link rel="stylesheet" href="/static/styles.css">
+
     {% block css %}{% endblock %}
+
     <style>
         :root {
             --primary-color: #007bff;
@@ -41,6 +48,14 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
+            color: var(--white);
+        }
+
+        .logo img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            vertical-align: middle;
         }
 
         .profile {
@@ -90,7 +105,30 @@
             border-radius: 5px;
             transition: background 0.3s, transform 0.2s;
         }
+       
+        nav ul li {
+            display: flex; /* Align icon and text horizontally */
+            align-items: center; /* Vertically align icon and text */
+            margin: 15px 0;
+        }
 
+        nav ul li img {
+            width: 30px; /* Icon size */
+            height: 30px;
+            border-radius: 50%; /* Optional: make the icon circular */
+            object-fit: cover;
+            margin-right: 10px; /* Space between the icon and the link text */
+        }
+
+        nav ul li a {
+            color: var(--white); /* Link text color */
+            text-decoration: none; /* Remove underline */
+            font-weight: bold; /* Make text bold */
+            padding: 10px;
+            display: flex; /* Use flexbox for better alignment */
+            align-items: center; /* Vertically center text and icon */
+            width: 100%;
+        }
         nav ul li a:hover {
             background: var(--primary-color);
             transform: scale(1.05);
@@ -188,29 +226,42 @@
 </head>
 <body>
     <header>
-        <div class="logo">Dashboard</div>
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="{% static 'media/dash.png' %}" alt="Logo">
+            Dashboard
+        </div>
+
+        <!-- Profile Section -->
         <div class="profile">
             <span>{{ user.username }}</span>
-            <img src="{% static 'media/myleaf.jpeg' %}" alt="Profile Image of {{ user.username }}">
+            {% block favicon %}
+            {% if lawyer.profile_picture %}
+        <img src="{{ lawyer.profile_picture.url }}" alt="Profile Picture" >
+        {% else %}
+            <img src="{% static 'media/profile.png' %}" alt="Default Profile Image" >
+        {% endif %}
+        {% endblock %}
         </div>
     </header>
 
+    <!-- Sidebar Menu -->
     <nav>
         <h2>Menu</h2>
         <ul>
-            <li><a href="{% url 'lawyers:home' %}" onclick="loadSection('Home')">Dashboard</a></li>
-            <li><a href="{% url 'lawyers:lawyers_clients' %}" onclick="loadSection('clients')">Clients</a></li>
-            <li><a href="{% url 'lawyers:create_appointment_view' lawyer_id=user.lawyer.id %}" onclick="loadSection('appointment')">Appointments</a></li>
-            <li><a href="{% url 'lawyers:lawyer-profile' %}" onclick="loadSection('profile')">Profile Management</a></li>
-            <li><a href="{% url 'lawyers:case_management' %}" onclick="loadSection('case')">Case Management</a></li>
-            <li><a href="{% url 'lawyers:upload_files' %}" onclick="loadSection('upload')">Upload Document</a></li>
-            <li><a href="{% url 'lawyers:message_view'%}" onclick="loadSection('messages')">Messages</a></li>
-            <li><a href="{% url 'lawyers:payment' %}" onclick="loadSection('payment')">Payments</a></li>
-            <li><a href="#" onclick="confirmSignout()">Signout</a></li>
+            <li> <img src="{% static 'media/dash.png' %}" alt="favicon"> <a href="{% url 'lawyers:home' %}" onclick="loadSection('Home')">Dashboard</a></li>
+            <li> <img src="{% static 'media/customer.png' %}" alt="favicon">  <a href="{% url 'lawyers:lawyers_clients' %}" onclick="loadSection('clients')">Clients</a></li>
+            <li> <img src="{% static 'media/appointmen1.png' %}" alt="favicon"> <a href="{% url 'lawyers:create_appointment_view' lawyer_id=user.lawyer.id %}" onclick="loadSection('appointment')">Appointments</a></li>
+            <li> <img src="{% static 'media/profile.png' %}" alt="favicon"> <a href="{% url 'lawyers:lawyer-profile' %}" onclick="loadSection('profile')">Profile Management</a></li>
+            <li> <img src="{% static 'media/case.png' %}" alt="favicon"><a href="{% url 'lawyers:case_management' %}" onclick="loadSection('case')">Case Management</a></li>
+            <li> <img src="{% static 'media/upload.png' %}" alt="favicon"> <a href="{% url 'lawyers:upload_files' %}" onclick="loadSection('upload')">Upload Document</a></li>
+            <li> <img src="{% static 'media/message.png' %}" alt="favicon"> <a href="{% url 'lawyers:message_view'%}" onclick="loadSection('messages')">Messages</a></li>
+            <li> <img src="{% static 'media/money.jpg' %}" alt="favicon"> <a href="{% url 'lawyers:payment' %}" onclick="loadSection('payment')">Payments</a></li>
+            <li> <img src="{% static 'media/sign.png' %}" alt="favicon"> <a href="#" onclick="confirmSignout()">Signout</a></li>
         </ul>
     </nav>
     
-
+    <!-- Main Content Area -->
     <main id="main-content">
         <div id="loading">Loading...</div>
         {% block content %}
@@ -221,6 +272,7 @@
         {% endblock %}
     </main>
 
+    <!-- JavaScript -->
     <script>
         function loadSection(section) {
             const mainContent = document.getElementById('main-content');

@@ -11,6 +11,8 @@ from lawyers.models import Payment as LawyerPayment
 from users.models import Payment as ClientPayment 
 from users.models import Appointment as UserAppointment  # Import user appointments
 from lawyers.models import Appointment as LawyerAppointment  # Import lawyer appointments
+from users.models import UploadFiles as ClientUploadFiles  # Import the correct model
+from lawyers.models import UploadFiles as LawyerUploadFiles
 
 from .forms import AppointmentForm,  CaseForm, UploadFileForm ,LawyerProfileForm,PaymentForm,MessageForm
 from django.contrib.auth.models import Group
@@ -35,6 +37,7 @@ logger = logging.getLogger(__name__)
 def lawyer_dashboard_view(request):
     lawyer = get_object_or_404(Lawyer, user=request.user)
     return render(request, 'lawyers/lawyer_dashboard.html', {'lawyer': lawyer})
+
 @login_required
 @lawyer_required
 def home_dashboard_view(request):
@@ -165,6 +168,18 @@ def lawyer_dashboard_view(request):
         'lawyer': lawyer,  # Ensure you pass the lawyer object here
     })
 
+def handle_message_form(request, lawyer_id):
+    form = MessageForm(request.POST)
+    if form.is_valid():
+        message = form.save(commit=False)
+        message.lawyer = request.user.lawyer  # Associate the logged-in lawyer
+        message.save()
+        messages.success(request, 'Message sent successfully!')
+        return redirect('lawyers:message_view', lawyer_id=lawyer_id)  # Pass the lawyer_id here
+    else:
+        messages.error(request, 'There was an error with your message form.')
+    return form
+
 
 def handle_appointment_form(request, lawyer_id):
     form = AppointmentForm(request.POST)
@@ -176,18 +191,6 @@ def handle_appointment_form(request, lawyer_id):
         return redirect('lawyers:appointments')  # Redirect to appointments list
     else:
         messages.error(request, 'There was an error with your appointment form.')
-    return form
-
-def handle_message_form(request, lawyer_id):
-    form = MessageForm(request.POST)
-    if form.is_valid():
-        message = form.save(commit=False)
-        message.lawyer = request.user.lawyer  # Associate the logged-in lawyer
-        message.save()
-        messages.success(request, 'Message sent successfully!')
-        return redirect('lawyers:message_view', lawyer_id=lawyer_id)  # Pass the lawyer_id here
-    else:
-        messages.error(request, 'There was an error with your message form.')
     return form
 
 
@@ -269,6 +272,15 @@ def delete_appointment_view(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id, lawyer=request.user.lawyer)
     appointment.delete()
     messages.success(request, 'Appointment deleted successfully!')
+
+    if appointment ==get_object_or_404(Appointment, id=appointment_id, user=request.user):
+    
+        if request.method == 'POST':
+            appointment.delete()
+            messages.success(request, "Appointment canceled successfully!")
+            return redirect('users:manage_appointments')
+
+        return render(request, 'users/confirm_delete.html', {'appointment': appointment})
     return redirect('lawyers:appointments')  # Ensure this redirects to the appointments list
 
 @login_required
@@ -397,6 +409,8 @@ def handle_upload_file_form(request):
     else:
         messages.error(request, 'There was an error uploading your file.')
     return form
+# views.py (in the lawyers app)
+
 
 @login_required
 @lawyer_required
@@ -407,12 +421,15 @@ def upload_file_view(request):
     # Fetch lawyer's uploaded files
     lawyer_files = LawyerUploadFiles.objects.filter(user=request.user)
 
-    # Fetch client's uploaded files associated with the lawyer
-    client_files = ClientUploadFiles.objects.filter(user__lawyer=request.user.lawyer)
+    # Fetch client's uploaded files associated with the logged-in lawyer
+    client_files = ClientUploadFiles.objects.filter(user__client__selected_lawyer=request.user.lawyer)
 
-    # Implement search functionality for lawyer's files
+    # Implement search functionality for both lawyer's and client’s files
     if search_query:
+        # Filter lawyer's files by search term
         lawyer_files = lawyer_files.filter(file__icontains=search_query)
+
+        # Filter client files by search term (search by client name or file name)
         client_files = client_files.filter(
             Q(user__first_name__icontains=search_query) |
             Q(user__last_name__icontains=search_query) |
@@ -423,7 +440,7 @@ def upload_file_view(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             upload_file = form.save(commit=False)
-            upload_file.user = request.user  # Associate uploaded file with the user
+            upload_file.user = request.user  # Associate uploaded file with the logged-in user
             upload_file.save()
             messages.success(request, 'File uploaded successfully!')
             return redirect('lawyers:upload_files')
@@ -433,18 +450,26 @@ def upload_file_view(request):
     return render(request, 'lawyers/upload_file_form.html', {
         'form': form,
         'lawyer_files': lawyer_files,
-        'client_files': client_files,
+        'client_files': client_files,  # Pass client files to template for display
         'search_query': search_query,
         'lawyer_id': lawyer_id,  # Pass the lawyer ID to the template
     })
-
-
 @login_required
 @lawyer_required
 def delete_lawyer_file(request, file_id):
-    file = get_object_or_404(UploadFiles, id=file_id, user=request.user)
+    # Handle deleting a lawyer's uploaded file
+    file = get_object_or_404(LawyerUploadFiles, id=file_id, user=request.user)
     file.delete()
-    messages.success(request, 'File deleted successfully!')
+    messages.success(request, "Lawyer's file deleted successfully.")
+    return redirect('lawyers:upload_files')
+
+@login_required
+@lawyer_required
+def delete_client_file(request, file_id):
+    # Handle deleting a client's uploaded file
+    file = get_object_or_404(ClientUploadFiles, id=file_id, user__lawyer=request.user.lawyer)
+    file.delete()
+    messages.success(request, "Client's file deleted successfully.")
     return redirect('lawyers:upload_files')
 
 
@@ -476,10 +501,13 @@ def client_list_view(request):
 
 @login_required
 def delete_client_view(request, client_id):
-    client = get_object_or_404(User, id=client_id)
-    client.delete()  # Optionally handle related data if needed
-    messages.success(request, 'Client deleted successfully.')
-    return redirect('lawyers:clients')
+    try:
+        client = get_object_or_404(User, id=client_id)
+        client.delete()  # Optionally handle related data if needed
+        messages.success(request, 'Client deleted successfully.')
+    except User.DoesNotExist:
+        print(f"User with ID {client_id} does not exist")     
+    return redirect('lawyers:lawyers_clients')
 
 
 @login_required

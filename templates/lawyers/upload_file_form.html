@@ -1,9 +1,9 @@
 {% extends 'lawyers/lawyer_dashboard.html' %}
+
 {% block content %}
 <h1>Uploaded Files</h1>
 <style>
-   
-
+    /* Custom table styling */
     table {
         width: 100%;
         border-collapse: collapse;
@@ -61,12 +61,14 @@
         }
     }
 </style>
+
 <h2>Upload File </h2>
-<form method="POST" enctype="multipart/form-data">  <!-- Important: enctype for file uploads -->
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}  <!-- This will render the form fields -->
+    {{ form.as_p }}  <!-- Render form fields for file upload -->
     <button type="submit">Upload</button>
 </form>
+
 <!-- Search Bar -->
 <form method="GET" style="margin-bottom: 20px;">
     <input type="text" name="search" placeholder="Search files..." value="{{ search_query }}" />
@@ -85,7 +87,7 @@
     <tbody>
         {% for file in lawyer_files %}
         <tr>
-            <td><a href="{{ file.file.url }}">{{ file.file.name }}</a></td>
+            <td><a href="{{ file.file.url }}" download>{{ file.file.name }}</a></td>
             <td>{{ file.upload_time }}</td>
             <td>
                 <form action="{% url 'lawyers:delete_lawyer_file' file.id %}" method="POST" style="display: inline;">
@@ -116,7 +118,7 @@
         {% for file in client_files %}
         <tr>
             <td>{{ file.user.first_name }} {{ file.user.last_name }}</td>
-            <td><a href="{{ file.file.url }}">{{ file.file.name }}</a></td>
+            <td><a href="{{ file.file.url }}" download>{{ file.file.name }}</a></td>
             <td>{{ file.upload_time }}</td>
             <td>
                 <form action="{% url 'lawyers:delete_client_file' file.id %}" method="POST" style="display: inline;">
@@ -132,4 +134,5 @@
         {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}

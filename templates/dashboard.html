@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+
+    <!-- Favicon link -->
+    <link rel="icon" href="{% static 'media/dash.png' %}" type="image/png">
+
     <link rel="stylesheet" href="/static/styles.css">
     {% block css %}{% endblock %}
     <style>
@@ -23,6 +27,7 @@
             height: 100vh;
             flex-direction: column;
             background-color: var(--background-color);
+            overflow-x: hidden;
         }
 
         header {
@@ -38,9 +43,18 @@
             z-index: 1000;
         }
 
-        .logo {
+        header .logo {
+            display: flex;
+            align-items: center;
             font-size: 24px;
             font-weight: bold;
+        }
+
+        header .logo img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
         }
 
         .profile {
@@ -66,6 +80,7 @@
             top: 60px;
             overflow-y: auto;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            transition: width 0.3s;
         }
 
         nav h2 {
@@ -78,7 +93,17 @@
         }
 
         nav ul li {
+            display: flex;
+            align-items: center;
             margin: 15px 0;
+        }
+
+        nav ul li img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
         }
 
         nav ul li a {
@@ -86,9 +111,9 @@
             text-decoration: none;
             font-weight: bold;
             padding: 10px;
-            display: block;
-            border-radius: 5px;
-            transition: background 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
 
         nav ul li a:hover {
@@ -101,6 +126,7 @@
             padding: 20px;
             width: calc(100% - 260px);
             margin-top: 60px;
+            transition: margin-left 0.3s, width 0.3s;
         }
 
         .section {
@@ -156,12 +182,19 @@
         }
 
         @media (max-width: 768px) {
+            /* Adjust layout for smaller screens */
             nav {
                 position: relative;
                 width: 100%;
                 height: auto;
                 top: 0;
                 padding: 10px;
+                box-shadow: none;
+                margin-bottom: 20px;
+            }
+
+            nav ul li {
+                justify-content: center;
             }
 
             main {
@@ -177,30 +210,69 @@
             .profile {
                 margin-top: 10px;
             }
+
+            .logo img {
+                width: 40px;
+                height: 40px;
+            }
+
+            nav h2 {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* For extra small screens like phones in portrait mode */
+            header {
+                padding: 5px 15px;
+            }
+
+            .profile img {
+                width: 30px;
+                height: 30px;
+            }
+
+            nav {
+                padding: 5px;
+            }
+
+            nav ul li {
+                font-size: 14px;
+            }
+
+            .section {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">Dashboard</div>
+        <div class="logo">
+            <img src="{% static 'media/dash.png' %}" alt="favicon"> Dashboard
+        </div>
         <div class="profile">
             <span>{{ user.username }}</span>
-            <img src="{% static 'media/lawyer.png' %}" alt="Law Firm Logo">
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+            {% else %}
+                <img src="{% static 'media/profile.png' %}" alt="Default Profile Image">
+            {% endif %}
         </div>
     </header>
 
     <nav>
         <h2>Menu</h2>
         <ul>
-            <li><a href="{% url 'users:home' %}" onclick="loadSection('Home')">Dashboard</a></li>
-            <li><a href="{% url 'users:choose_lawyer' %}" onclick="loadSection('lawyers')">Lawyers</a></li>
-            <li><a href="{% url 'users:appointment' %}" onclick="loadSection('appointment')">Book Appointment</a></li>
-            <li><a href="{% url 'users:profile_management_view' %}" onclick="loadSection('profile')">Profile Management</a></li>
-            <li><a href="{% url 'users:casemanagement' %}" onclick="loadSection('case')">Case Management</a></li>
-            <li><a href="{% url 'users:documents_view' %}" onclick="loadSection('upload')">Documents</a></li>
-            <li><a href="{% url 'users:payment' %}" onclick="loadSection('payment')">Payments</a></li>
-            <li><a href="{% url 'users:client_message_view' %}" onclick="loadSection('messages')">Messages</a></li> 
-            <li><a href="#" onclick="confirmSignout()">Signout</a></li>
+            <li><img src="{% static 'media/dash.png' %}" alt="favicon"><a href="{% url 'users:home' %}">Dashboard</a></li>
+            <li><img src="{% static 'media/vector.jpg' %}" alt="favicon"><a href="{% url 'users:choose_lawyer' %}">Lawyers</a></li>
+            <li><img src="{% static 'media/appointmen1.png' %}" alt="favicon"><a href="{% url 'users:appointment' %}">Book Appointment</a></li>
+            <li><img src="{% static 'media/profile.png' %}" alt="favicon"><a href="{% url 'users:profile_management_view' %}">Profile Management</a></li>
+            <li><img src="{% static 'media/case.png' %}" alt="favicon"><a href="{% url 'users:casemanagement' %}">Case Management</a></li>
+            <li><img src="{% static 'media/upload.png' %}" alt="favicon"><a href="{% url 'users:upload_file_view' %}">Documents</a></li>
+            <li><img src="{% static 'media/money.jpg' %}" alt="favicon"><a href="{% url 'users:payment' %}">Payments</a></li>
+            <li><img src="{% static 'media/message.png' %}" alt="favicon"><a href="{% url 'users:client_message_view' %}">Messages</a></li>
+            <li><img src="{% static 'media/sign.png' %}" alt="favicon"><a href="#" onclick="confirmSignout()">Signout</a></li>
         </ul>
     </nav>
 
@@ -208,42 +280,15 @@
         {% block content %}
         <div class="section">
             <h2>Welcome, {{ user.username }}!</h2>
-            <p>Select a Lawyer first before booking an appointment, Making payments, File a case and Uploading a Doc.</p>
+            <p>Select a Lawyer first before booking an appointment, making payments, filing a case, and uploading a document.</p>
         </div>
         {% endblock %}
     </main>
 
-   
     <script>
-        function loadSection(section) {
-            const mainContent = document.getElementById('main-content');
-            const loadingIndicator = document.getElementById('loading');
-            
-            loadingIndicator.style.display = 'block'; // Show loading
-            mainContent.style.display = 'none'; // Hide main content
-
-            fetch(`/${section}/`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    mainContent.innerHTML = html;
-                    mainContent.style.display = 'block'; // Show content
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                })
-                .finally(() => {
-                    loadingIndicator.style.display = 'none'; // Hide loading
-                });
-        }
-
         function confirmSignout() {
             if (confirm("Are you sure you want to sign out?")) {
-                window.location.href = "{% url 'users:logout' %}"; // Adjust the URL for signout
+                window.location.href = "{% url 'users:logout' %}"; //  signout
             }
         }
     </script>

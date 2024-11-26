@@ -22,10 +22,14 @@ urlpatterns = [
     path('casemanagement/', views.case_management_view, name='casemanagement'),
     path('documents/', views.documents_view, name='documents_view'),
     path('documents/delete/<int:document_id>/', views.delete_document, name='delete_document'),
+
     path('profile-form/', views.profile_management_view, name='profile_management_view'),
     path('create-profile/', views.create_profile_view, name='profile_creation'),
+
     path('payment/', views.payment_view, name='payment'),
     path('payment/success/', views.payment_success_view, name='payment_success'),
+
+    path('upload_files/',views.upload_file_view, name='upload_file_view'),
     path('upload/', views.upload_file_view, name='upload_files'),
     
     path('choose-lawyer/', views.choose_lawyer, name='choose_lawyer'),  # Updated path

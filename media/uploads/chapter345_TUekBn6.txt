@@ -1,0 +1,348 @@
+﻿Chapter 3: PRODUCTION AND OPERATIONS PLAN
+3.1 Production Process
+    1. Project Initiation: Client consultations to identify needs.
+    2. Requirement Analysis: Defining and breaking down project requirements.
+    3. Design Phase: UI/UX wireframes and prototype development.
+    4. Development: Writing, testing, and refining code.
+    5. Quality Assurance: Rigorous testing and performance checks.
+    6. Deployment: Product delivery and client training.
+    7. Maintenance: Ongoing support and updates.
+3.2 Location and Facilities
+    • Office Location: Nairobi, for access to clients and local services.
+    • Facilities: Equipped with computers, servers, office furniture, and a collaborative workspace.
+3.3 Technology and Equipment
+Equipment
+Quantity
+Cost (KSH)
+Source of Funds
+High-Performance Computers
+5
+100,000
+Owner’s funds
+Networking Equipment
+3 sets
+50,000
+Bank Loan
+Secure Storage Devices
+3
+30,000
+Owner’s funds
+Licensed Software Tools
+-
+80,000
+Loan
+Total
+
+260,000
+
+3.4 Quality Control
+Quality Control Method
+Frequency
+Responsible Team Member
+Unit Testing
+Every project phase
+Quality Assurance Team
+Client Feedback Sessions
+Bi-monthly
+Project Manager
+Documentation Reviews
+Monthly
+Lead Developer
+3.5 Capacity
+    • Initial Project Capacity: 5-10 projects simultaneously.
+    • Scalability: Additional hires or freelancers as needed.
+3.6 Suppliers
+Supplier
+Items Supplied
+Location
+Jomoko Hardware
+Computers, Equipment
+Nairobi
+SecureNet Solutions
+Networking Tools
+Nairobi
+Nairobi Internet Service
+Internet Provision
+Nairobi
+3.7 Legal and Environmental Compliance
+Compliance Area
+Action
+Data Protection Laws
+Encrypted data handling
+Intellectual Property
+Licensed software, NDA policies
+Environmental Policy
+Minimal paper use, energy-saving practices
+
+Chapter 4: MANAGEMENT AND ORGANIZATION PLAN
+4.1 Ownership Structure
+Ownership Type
+Details
+Limited Liability Company (LLC)
+Owned by the founder
+4.2 Organizational Structure
+Below is the hierarchical organizational structure for Tekashi Software Development Firm:
+Position
+Reports To
+Responsibilities
+CEO
+-
+Business strategy, operations, partnerships
+Project Manager(s)
+CEO
+Client management, project scheduling, resource allocation
+Lead Developer
+Project Manager
+Code quality, mentoring developers
+Software Developers
+Lead Developer
+Coding, testing, deployment
+UI/UX Designer
+Project Manager
+User experience, interface design
+Quality Assurance Team
+Project Manager
+Testing and quality assurance
+Sales & Marketing Team
+CEO
+Client acquisition, branding, promotion
+Finance & Admin
+CEO
+Financial management, payroll, admin tasks
+4.3 Key Management Roles and Responsibilities
+Role
+Key Responsibilities
+CEO
+Develops business strategy, secures funding, oversees all projects
+Project Manager
+Oversees projects, manages timelines, liaises with clients
+Lead Developer
+Ensures code quality, assists junior developers
+Finance Officer
+Manages budget, financial reports, payroll
+Marketing Manager
+Develops marketing strategy, oversees client communication
+4.4 Recruitment and Staffing
+Position
+Number of Staff
+Recruitment Plan
+CEO
+1
+Founder
+Project Manager
+1
+Recruit from tech management background
+Lead Developer
+1
+Experienced developer with team lead experience
+Software Developers
+3
+Skilled in full-stack development
+UI/UX Designer
+1
+Creative with strong design portfolio
+Quality Assurance Team
+2
+Experienced in software testing
+Sales & Marketing Team
+2
+Sales-focused with client acquisition experience
+Finance & Admin
+1
+Skilled in accounting and finance management
+4.5 Training and Development
+Training Area
+Frequency
+Details
+Coding & Development Skills
+Quarterly
+Workshops on the latest programming techniques
+Project Management
+Bi-annual
+Project management certification for managers
+Industry Conferences
+Annual
+Sponsored attendance to stay updated in the field
+4.6 Compensation and Incentives
+Below is a compensation table based on the budget outlined in Chapters 2 and 5.
+Position
+Monthly Salary (KSH)
+Annual Salary (KSH)
+Incentives
+CEO
+200,000
+2,400,000
+Profit-sharing based on yearly revenue
+Project Manager
+150,000
+1,800,000
+Project completion bonuses
+Lead Developer
+130,000
+1,560,000
+Performance-based bonuses
+Software Developers
+80,000
+960,000 (each)
+Annual salary reviews
+UI/UX Designer
+75,000
+900,000
+Quarterly performance incentives
+Quality Assurance Team
+60,000
+720,000 (each)
+Bonuses for zero-bug project completions
+Sales & Marketing Team
+70,000
+840,000 (each)
+Commission-based on sales targets
+Finance & Admin
+60,000
+720,000
+End-of-year bonuses based on profitability
+4.7 Advisory Board
+Advisory Role
+Key Contributions
+Software Development Expert
+Advises on industry trends and software solutions
+Financial Consultant
+Offers guidance on budgeting, funding, and profitability
+Marketing Strategist
+Assists with brand positioning and market expansion plans
+
+
+
+
+Chapter 5: FINANCIAL PLAN
+Initial Capital
+Source
+Amount (KSH)
+Terms
+Owner Savings
+1,000,000
+
+Bank Loan
+800,000
+16% p.a, 3-year loan
+Microfinance Loan
+500,000
+10% p.a, 24-month loan
+Friends Donations
+300,000
+
+Total
+2,600,000
+
+Setup Costs
+Asset
+Cost (KSH)
+Source of Funds
+Computers
+100,000
+Owner’s funds
+Equipment
+500,000
+Bank Loan
+Furniture
+150,000
+Loan
+Office Fittings
+120,000
+Owner
+Initial Materials
+80,000
+Owner
+Total
+950,000
+
+Collateral
+Security
+Estimated Value (KSH)
+Charged
+Land Parcel LR/029/45/10
+4,000,000
+1 acre (800,000)
+Contribution/Savings
+300,000
+
+List of Creditors
+Name
+Days Outstanding
+Amount (KSH)
+African Development Corp
+36 months
+600,000
+Kenya Tech Trust
+24 months
+500,000
+Forecast Income Statement for the Years Ending December 31, Year 1 & Year 2
+Particulars
+Year 1 (KSH)
+Year 2 (KSH)
+Estimated Sales Income
+
+
+Custom Software Projects
+5,000,000
+7,000,000
+Software Consulting
+200,000
+300,000
+Training Workshops
+100,000
+150,000
+Total Revenue
+5,300,000
+7,450,000
+Less Direct Costs
+| Direct Labour | 900,000 | 1,000,000 | | Software Tools | 50,000 | 60,000 | | Office Supplies | 40,000 | 50,000 | | Total Direct Costs | (990,000) | (1,110,000)| | Gross Profit | 4,310,000 | 6,340,000 |
+Operating Expenses
+| Salaries | 1,000,000 | 1,100,000 | | Transportation | 400,000 | 400,000 | | Utilities | 60,000 | 70,000 | | Office Maintenance | 50,000 | 60,000 | | Insurance | 120,000 | 150,000 | | Marketing | 200,000 | 250,000 | | Accounting Services | 70,000 | 80,000 | | NHIF/NSSF | 80,000 | 80,000 | | Communication | 40,000 | 45,000 | | Interest Expense | 15,000 | 18,000 | | Total Operating Expenses | (2,035,000) | (2,253,000) | | Net Profit Before Tax | 2,275,000 | 4,087,000 | | Tax (30%) | (682,500) | (1,226,100) | | Profit After Tax | 1,592,500 | 2,860,900 |
+Forecast Statement of Financial Position (As at December 31, Year 1 and Year 2)
+
+Year 1 (KSH)
+Year 2 (KSH)
+Fixed Assets
+950,000
+800,000
+Current Assets
+1,500,000
+2,300,000
+Total Assets
+2,450,000
+3,100,000
+Financed By:
+| Current Liabilities | 800,000 | 600,000 | | Long-term Liabilities | 1,000,000 | 800,000 | | Total Liabilities | 1,800,000| 1,400,000 | | Capital | 600,000 | 1,200,000 | | Retained Earnings | 50,000 | 500,000 |
+Forecast Cash Flow Statement (Year 1 and Year 2)
+
+Year 1 (KSH)
+Year 2 (KSH)
+Opening Balance
+2,600,000
+3,150,000
+Receipts
+
+
+Sales Income
+5,300,000
+7,450,000
+Total Receipts
+5,300,000
+7,450,000
+Payments
+
+
+Operating Costs
+(2,035,000)
+(2,253,000)
+Asset Purchases
+(150,000)
+(200,000)
+Total Payments
+(2,185,000)
+(2,453,000)
+Closing Balance
+3,150,000
+4,997,000
+

@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Law Firm</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'media/lawyer.png' %}" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         html {
@@ -38,6 +43,7 @@
         .navbar-custom {
             background-color: green;
         }
+        .navbar-custom .navbar-brand,
         .navbar-custom .nav-link {
             color: white;
         }
@@ -69,11 +75,17 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
         <a class="navbar-brand" href="#">Law Firm</a>
-        <div class="collapse navbar-collapse">
+        <!-- Toggle button for mobile view -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+                <!-- SignUp Link -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'user:sign-up' %}">SignUp</a>
                 </li>
+                <!-- SignIn Link -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'user:usercategory' %}">SignIn</a>
                 </li>
@@ -160,26 +172,10 @@
         <p>&copy; 2024 Online Law Firm. All rights reserved.</p>
     </div>
 
+    <!-- JavaScript and jQuery for Bootstrap functionality -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-
-            // Simple form validation
-            if (name && email && message) {
-                alert(`Thank you, ${name}! Your message has been sent.`);
-                // Here you could send the form data using fetch or XMLHttpRequest
-            } else {
-                alert('Please fill out all fields.');
-            }
-        });
-    </script>
 </body>
 </html>
 {% endblock %}

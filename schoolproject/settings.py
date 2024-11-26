@@ -104,9 +104,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'lawfirm',
         'USER': 'root',
-        'PASSWORD': '@Engotiis123',
+        'PASSWORD': 'sambaman',
         'HOST': 'localhost',
-        'PORT': '3307',
+        'PORT': '3306',
     }
 }
 
