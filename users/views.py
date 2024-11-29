@@ -6,10 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
 from .forms import CustomUserCreationForm, LoginForm, ProfileForm, AppointmentForm, CaseManagementForm, UploadFileForm, PaymentForm
-from .models import Profile,Payment,CaseManagement,Client,Appointment
+from .models import Profile,Payment,CaseManagement,Client,Appointment,UploadFiles
 
 from lawyers.models import Message
 from lawyers.forms import MessageForm
+
+
+from lawyers.models import UploadFiles as LawyerUploadFiles
+from users.models import UploadFiles as ClientUploadFiles
+
 
 from django.contrib.auth.models import Group
 from django.http import JsonResponse
@@ -386,17 +391,37 @@ def handle_payment_form(request):
 @lawyer_selected_required
 def upload_file_view(request):
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)  # Don't forget to pass request.FILES
+        form = UploadFileForm(request.POST, request.FILES)  # Handle file uploads
         if form.is_valid():
-            upload_file = form.save(commit=False)  # Don't save yet; we need to associate the user
+            upload_file = form.save(commit=False)  # Don't save yet
             upload_file.user = request.user  # Associate the uploaded file with the logged-in user
-            upload_file.save()  # Now save the file to the database
+            upload_file.save()  # Save the file to the database
             messages.success(request, 'File uploaded successfully!')
-            return redirect('users:upload_files')  # Redirect to a view that shows the files
+            return redirect('users:upload_files')  # Redirect to view files page
     else:
         form = UploadFileForm()
 
     return render(request, 'users/upload_file_form.html', {'form': form})
+
+
+@login_required
+@client_required
+@lawyer_selected_required
+def client_files_view(request):
+    lawyer_files = LawyerUploadFiles.objects.filter(user=request.user)
+
+    # Fetch client's uploaded files associated with the logged-in lawyer
+    client_files = ClientUploadFiles.objects.filter(user__client__selected_lawyer=request.user.lawyer)
+
+
+    return render(request, 'users/upload_file_form.html', {
+        'client_files': client_files,
+        'lawyer_files': lawyer_files,
+    })
+
+
+
+
 
 @login_required
 @lawyer_selected_required

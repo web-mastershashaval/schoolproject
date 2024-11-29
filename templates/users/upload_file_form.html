@@ -1,26 +1,115 @@
 {% extends 'dashboard.html' %}
-{% load static %}
-
-{% block title %}Upload File{% endblock %}
 
 {% block content %}
 
-<body>
-    <h1>Upload a File</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
-    </form>
+<style>
+    /* Custom table styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</body>
+    thead {
+        background-color: #007bff;
+        color: white;
+    }
 
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-{%endblock%}
+    th {
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    @media (max-width: 600px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+
+        th {
+            display: none;
+        }
+
+        td {
+            text-align: right;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 10px;
+            width: 50%;
+            padding-left: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+    }
+</style>
+
+<h2>Upload Files</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Render the file upload form -->
+    <button type="submit">Upload</button>
+</form>
+
+<!-- <table>
+    <thead>
+        <tr>
+            <th>File</th>
+            <th>Uploaded At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in client_files %}
+        <tr>
+            <td><a href="{{ file.file.url }}" download>{{ file.file.name }}</a></td>
+            <td>{{ file.upload_time }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No files uploaded by you.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Lawyer's Uploaded Files</h2>
+<table>
+    <thead>
+        <tr>
+            <th>File</th>
+            <th>Uploaded At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in lawyer_files %}
+        <tr>
+            <td><a href="{{ file.file.url }}" download>{{ file.file.name }}</a></td>
+            <td>{{ file.upload_time }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No files uploaded by your lawyer.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %} -->

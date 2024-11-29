@@ -31,6 +31,7 @@ urlpatterns = [
 
     path('upload_files/',views.upload_file_view, name='upload_file_view'),
     path('upload/', views.upload_file_view, name='upload_files'),
+
     
     path('choose-lawyer/', views.choose_lawyer, name='choose_lawyer'),  # Updated path
     path('select-lawyer/<int:lawyer_id>/', views.select_lawyer, name='select_lawyer'),  # If you have a separate view for selecting

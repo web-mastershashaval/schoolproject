@@ -454,6 +454,8 @@ def upload_file_view(request):
         'search_query': search_query,
         'lawyer_id': lawyer_id,  # Pass the lawyer ID to the template
     })
+
+
 @login_required
 @lawyer_required
 def delete_lawyer_file(request, file_id):
